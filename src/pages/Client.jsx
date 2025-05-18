@@ -6,8 +6,12 @@ import { motion } from 'framer-motion'; // Import motion from Framer Motion
 export default function Clients() {
   const [clients, setClients] = useState([]);
   const [loading, setLoading] = useState(true);
+   useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   useEffect(() => {
+    
     const fetchClients = async () => {
       try {
         const response = await fetch('https://laysans-solutions-api.onrender.com/client/');

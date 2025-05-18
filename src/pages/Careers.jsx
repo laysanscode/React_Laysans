@@ -8,6 +8,9 @@ const Careers = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [experienceFilter, setExperienceFilter] = useState('');
+   useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   useEffect(() => {
     const fetchCareers = async () => {

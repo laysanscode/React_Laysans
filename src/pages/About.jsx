@@ -1,4 +1,4 @@
-import React from "react";
+import React ,{useEffect} from "react";
 import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer"; // Import useInView hook
 
@@ -7,6 +7,9 @@ const About = () => {
     triggerOnce: true,
     threshold: 0.2, // Adjust the threshold to control how much the element needs to be in view
   });
+   useEffect(() => {
+      window.scrollTo(0, 0);
+    }, []);
 
   const { ref: missionRef, inView: missionInView } = useInView({
     triggerOnce: true,
