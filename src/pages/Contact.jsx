@@ -1,6 +1,15 @@
-import React, { useState } from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';  // import useEffect
+import { motion } from 'framer-motion';
+import Chat from '../Elements/Chat';
 
 function Contact() {
+  // Scroll to top on component mount to prevent auto scroll down
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -10,7 +19,7 @@ function Contact() {
 
   const [submitting, setSubmitting] = useState(false);
   const [responseMessage, setResponseMessage] = useState(null);
-  const [responseType, setResponseType] = useState(''); // 'success' or 'error'
+  const [responseType, setResponseType] = useState('');
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -75,16 +84,30 @@ function Contact() {
           <i className="fab fa-whatsapp"></i>
         </a>
 
-        <div className="container" data-aos="fade-up">
+        <motion.div
+          className="container"
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
           <div className="row my-5 align-items-stretch">
             {/* Left column */}
-            <div className="col-lg-4 contact-info d-flex flex-column">
+            <motion.div
+              className="col-lg-4 contact-info d-flex flex-column"
+              initial={{ opacity: 0, x: -50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <h4 className="text-uppercase mb-4">Get in Touch</h4>
               <div className="address pb-2">
                 <iframe
                   title="Laysans Location"
                   src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3889.2203186081083!2d80.1200975750751!3d12.893549987414689!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTLCsDUzJzM2LjgiTiA4MMKwMDcnMjEuNiJF!5e0!3m2!1sen!2sin!4v1742842396798!5m2!1sen!2sin"
                   allowFullScreen
+                  loading="lazy"
+                  tabIndex="-1"  // prevent focus auto scroll
                   style={{ border: 0, borderRadius: '8px', width: '100%', height: '200px' }}
                 ></iframe>
               </div>
@@ -98,10 +121,16 @@ function Contact() {
                 <h5>Phone Number:</h5>
                 <p>+91 9500262207</p>
               </div>
-            </div>
+            </motion.div>
 
             {/* Right column */}
-            <div className="col-lg-8 mt-5 mt-lg-0 contact-form d-flex flex-column">
+            <motion.div
+              className="col-lg-8 mt-5 mt-lg-0 contact-form d-flex flex-column"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
               <h4 className="text-uppercase mb-4">Send Us a Message</h4>
               <form onSubmit={handleSubmit} className="php-email-form flex-grow-1">
                 <div className="row">
@@ -177,9 +206,10 @@ function Contact() {
                   {responseMessage}
                 </div>
               )}
-            </div>
+            </motion.div>
           </div>
-        </div>
+          <Chat />
+        </motion.div>
       </section>
     </>
   );

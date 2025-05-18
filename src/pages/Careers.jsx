@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { motion } from 'framer-motion'; // Import motion from Framer Motion
+import { motion } from 'framer-motion';
 
 const Careers = () => {
   const [careers, setCareers] = useState([]);
@@ -9,7 +9,6 @@ const Careers = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [experienceFilter, setExperienceFilter] = useState('');
 
-  // Fetch career data from API
   useEffect(() => {
     const fetchCareers = async () => {
       try {
@@ -29,22 +28,33 @@ const Careers = () => {
     fetchCareers();
   }, []);
 
-  // Handle search query change
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  // Handle experience level filter change
   const handleExperienceFilterChange = (e) => {
     setExperienceFilter(e.target.value);
   };
 
-  // Filter careers based on search query and experience filter
   const filteredCareers = careers.filter((career) => {
     const matchesSearch = career.JobName.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesExperience = experienceFilter ? career.exp === parseInt(experienceFilter) : true;
     return matchesSearch && matchesExperience;
   });
+
+  const containerVariants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
 
   return (
     <div>
@@ -58,7 +68,14 @@ const Careers = () => {
         </div>
       </section>
 
-      <section id="careers" className="d-flex align-items-center justify-content-center">
+      <motion.section
+        id="careers"
+        className="d-flex align-items-center justify-content-center"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1 }}
+      >
         <div className="container">
           <div className="row justify-content-center">
             <form id="searchForm" className="row g-3 justify-content-center">
@@ -94,42 +111,46 @@ const Careers = () => {
           <br />
 
           <div className="container my-4">
-            <div className="row">
+            <motion.div
+              className="row"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {loading ? (
-                <div className="row">
-                  {[...Array(6)].map((_, index) => (
-                    <div
-                      key={index}
-                      className="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch custom-shadow justify-content-center"
-                    >
-                      <div className="icon-box d-flex flex-column align-items-center text-center pb-3">
-                        <Skeleton circle height={50} width={50} />
-                        <Skeleton width="80%" />
-                        <Skeleton width="60%" />
-                        <Skeleton width="90%" />
-                        <Skeleton width="70%" />
-                        <a type="button" className="btn btn-danger" href="/">
-                          Apply Now
-                        </a>
-                      </div>
+                [...Array(6)].map((_, index) => (
+                  <div
+                    key={index}
+                    className="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch custom-shadow justify-content-center"
+                  >
+                    <div className="icon-box d-flex flex-column align-items-center text-center pb-3">
+                      <Skeleton circle height={50} width={50} />
+                      <Skeleton width="80%" />
+                      <Skeleton width="60%" />
+                      <Skeleton width="90%" />
+                      <Skeleton width="70%" />
+                      <a type="button" className="btn btn-danger" href="/">
+                        Apply Now
+                      </a>
                     </div>
-                  ))}
-                </div>
+                  </div>
+                ))
               ) : (
                 filteredCareers.map((career) => (
                   <motion.div
                     key={career.id}
                     className="col-lg-4 col-md-6 col-sm-12 d-flex align-items-stretch custom-shadow justify-content-center my-2"
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.8 }}
+                    variants={cardVariants}
+                    transition={{ duration: 0.6 }}
                   >
                     <div className="icon-box d-flex flex-column align-items-center text-center pb-3">
                       <div className="icon">
                         <i className={career.Iconclassname}></i>
                       </div>
                       <h4>
-                        <a href={`/React_Laysans/#/careerform?id=${career.id}&name=${encodeURIComponent(career.JobName)}`}>
+                        <a
+                          href={`/#/careerform?id=${career.id}&name=${encodeURIComponent(career.JobName)}`}
+                        >
                           {career.JobName}
                         </a>
                       </h4>
@@ -139,7 +160,7 @@ const Careers = () => {
                       <a
                         type="button"
                         className="btn btn-danger"
-                        href={`/React_Laysans/#/careerform?id=${career.id}&name=${encodeURIComponent(career.JobName)}`}
+                        href={`/#/careerform?id=${career.id}&name=${encodeURIComponent(career.JobName)}`}
                       >
                         Apply Now
                       </a>
@@ -147,10 +168,10 @@ const Careers = () => {
                   </motion.div>
                 ))
               )}
-            </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
       <section id="services" className="services">
         <a

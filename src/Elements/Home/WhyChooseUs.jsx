@@ -53,7 +53,7 @@ const WhyChooseUs = () => (
             </motion.div>
           ))}
           <div className="text-center mt-3">
-            <a type="button" href="/about" className="btn btn-outline-dark">Read More</a>
+            <a type="button" href="/#/about" className="btn btn-outline-dark">Read More</a>
           </div>
         </div>
       </div>

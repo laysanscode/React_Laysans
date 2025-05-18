@@ -51,7 +51,7 @@ const Chat = () => {
 
   // Scroll to the latest message after every update
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    // messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
   return (
@@ -72,24 +72,19 @@ const Chat = () => {
             </p>
           </div>
         </div>
-
-        <div className="chatbox__messages">
-          {messages.reduce((acc, msg, i, arr) => {
-            if (msg.name === "User") {
-              const botReply = arr[i + 1]?.name === "Tesla" ? arr[i + 1] : null;
-              acc.push(
-                <div key={i} className="message__pair">
-                  <div className="messages__item messages__item--operator">{msg.message}</div>
-                  {botReply && (
-                    <div className="messages__item messages__item--visitor">{botReply.message}</div>
-                  )}
-                </div>
-              );
-            }
-            return acc;
-          }, [])}
-          <div ref={messagesEndRef} />
-        </div>
+<div className="chatbox__messages">
+  {[...messages].reverse().map((msg, index) => (
+    <div
+      key={index}
+      className={`messages__item ${
+        msg.name === "User" ? "messages__item--operator" : "messages__item--visitor"
+      }`}
+    >
+      {msg.message}
+    </div>
+  ))}
+  <div ref={messagesEndRef} />
+</div>
 
         <div className="chatbox__footer">
           <input

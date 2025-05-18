@@ -11,6 +11,7 @@ import {
   FaShieldHalved,
   FaRobot,
 } from 'react-icons/fa6';
+import { motion } from 'framer-motion';
 
 const services = [
   {
@@ -69,46 +70,69 @@ const services = [
   },
 ];
 
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: (i) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: i * 0.1,
+      duration: 0.6,
+      ease: 'easeOut',
+    },
+  }),
+};
+
 const Services = () => {
   return (
-   <div>
-     <section>
-    <div class="parllax1">
-        <div class="about">
-            <div class="info">
-                <h3>Services </h3>
+    <div>
+      {/* Header Section */}
+      <section>
+        <div className="parllax1">
+          <div className="about">
+            <div className="info">
+              <h3>Services</h3>
             </div>
-
+          </div>
         </div>
-        
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="services code">
+        {/* WhatsApp Icon */}
+        <a
+          href="https://api.whatsapp.com/send?phone=919500272207"
+          className="whatsapp-icon"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <i className="fab fa-whatsapp"></i>
+        </a>
+
+        <Container>
+          <Row className="my-4">
+            {services.map((service, index) => (
+              <Col key={index} lg={4} md={6} className="mb-4">
+                <motion.div
+                  variants={fadeInUp}
+                  initial="hidden"
+                  animate="visible"
+                  custom={index}
+                >
+                  <Card className="align-items-stretch custom-shadow justify-content-center text-center" style={{minHeight: '320px'}}>
+                    <div className="icon my-3">{service.icon}</div>
+                    <Card.Body>
+                      <Card.Title>{service.title}</Card.Title>
+                      <Card.Text>{service.description}</Card.Text>
+                    </Card.Body>
+                  </Card>
+                </motion.div>
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      </section>
     </div>
-</section>
-    <section id="services" className="services code">
-      <a
-        href="https://api.whatsapp.com/send?phone=919500272207"
-        className="whatsapp-icon"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <i className="fab fa-whatsapp"></i>
-      </a>
-      <Container data-aos="fade-up">
-        <Row className="my-4">
-          {services.map((service, index) => (
-            <Col key={index} lg={4} md={6} className="mb-4">
-              <Card className="align-items-stretch custom-shadow justify-content-center text-center h-100">
-                <div className="icon my-3">{service.icon}</div>
-                <Card.Body>
-                  <Card.Title>{service.title}</Card.Title>
-                  <Card.Text>{service.description}</Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </Container>
-    </section>
-   </div>
   );
 };
 
